@@ -1,0 +1,26 @@
+# Model Config:
+exp_name: "mamba2_mag_mask_release"
+model_type: "mamba2_base_causal_film"
+n_fft: 512
+hop_length: 256
+d_model: 512
+depth: 2
+# causal: only used for TCN models, mean nothing, ignore 
+causal: False
+
+# Pipeline Config
+max_epochs: 150
+preload: true
+sample_rate: 44100
+shuffle: true
+train_subset: "train"
+val_subset: "val"
+eval_subset: "test"
+train_length: 65536
+train_fraction: 1.0
+eval_length: 131072
+batch_size: 32
+num_workers: 0
+precision: 32
+eval_precision: 16
+eval_audo_save_dir: "./audio"

@@ -1,0 +1,21 @@
+exp_name: "s6_16d_release"
+model_type: "mamba_raw"
+d_state: 16
+causal: false
+
+# Pipeline Config
+max_epochs: 150
+preload: true
+sample_rate: 44100
+shuffle: true
+train_subset: "train"
+val_subset: "val"
+eval_subset: "test"
+train_length: 65536
+train_fraction: 1.0
+eval_length: 131072
+batch_size: 16
+num_workers: 0
+precision: 32
+eval_precision: 16
+eval_audo_save_dir: "./audio"

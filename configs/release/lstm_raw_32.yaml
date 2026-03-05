@@ -1,0 +1,22 @@
+exp_name: "lstm_raw_32_release"
+model_type: "lstm"
+hidden_size: 32
+# causal: only used for TCN models, mean nothing, ignore 
+causal: false
+
+# Pipeline Config
+max_epochs: 150
+preload: true
+sample_rate: 44100
+shuffle: true
+train_subset: "train"
+val_subset: "val"
+eval_subset: "test"
+train_length: 65536
+train_fraction: 1.0
+eval_length: 131072
+batch_size: 32
+num_workers: 0
+precision: 16
+eval_precision: 32
+eval_audo_save_dir: "./audio"
