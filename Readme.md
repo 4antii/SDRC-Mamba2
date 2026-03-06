@@ -35,6 +35,12 @@ Install required Python packages used by scripts:
 - `auraloss`, `thop`, `librosa`, `pyloudnorm`
 - `einops`, `pyyaml`, `tqdm`
 
+## Pretrained Models
+Pretrained checkpoints are available at:
+- [SDRC-Mamba2 (Hugging Face)](https://huggingface.co/young-flame-boi/SDRC-Mamba2/tree/main)
+
+Place downloaded model folders under `./experiments`, resulting in the structure: `./experiments/<dataset>/<model_dir>`.
+
 ## Training
 Run the full experiment suite (all models, all datasets, and ablations):
 
