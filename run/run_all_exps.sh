@@ -2,6 +2,8 @@ cd ..
 # LA-2A
 python train.py  --config_path ./configs/release/mamba2_mag_mask.yaml --dataset la2a
 python train.py  --config_path ./configs/release/mamba2_mag_phase_mask.yaml --dataset la2a
+python train.py  --config_path ./configs/release/mamba2_mag_phase_mask_medium.yaml --dataset la2a
+python train.py  --config_path ./configs/release/mamba2_mag_phase_mask_small.yaml --dataset la2a
 python train.py  --config_path ./configs/release/lstm_raw_32.yaml --dataset la2a
 python train.py  --config_path ./configs/release/tcn_100_config.yaml --dataset la2a
 python train.py  --config_path ./configs/release/tcn_300_config.yaml --dataset la2a
@@ -11,6 +13,8 @@ python train.py  --config_path ./configs/release/s6_16d.yaml --dataset la2a
 # # CL-1B
 python train.py  --config_path ./configs/release/mamba2_mag_mask.yaml --dataset cl1b
 python train.py  --config_path ./configs/release/mamba2_mag_phase_mask.yaml --dataset cl1b
+python train.py  --config_path ./configs/release/mamba2_mag_phase_mask_medium.yaml --dataset cl1b
+python train.py  --config_path ./configs/release/mamba2_mag_phase_mask_small.yaml --dataset cl1b
 python train.py  --config_path ./configs/release/lstm_raw_32.yaml --dataset cl1b
 python train.py  --config_path ./configs/release/tcn_100_config.yaml --dataset cl1b
 python train.py  --config_path ./configs/release/tcn_300_config.yaml --dataset cl1b
@@ -20,6 +24,8 @@ python train.py  --config_path ./configs/release/s6_16d.yaml --dataset cl1b
 # # Alesis 3630
 python train.py  --config_path ./configs/release/mamba2_mag_mask.yaml --dataset alesis3630
 python train.py  --config_path ./configs/release/mamba2_mag_phase_mask.yaml --dataset alesis3630
+python train.py  --config_path ./configs/release/mamba2_mag_phase_mask_medium.yaml --dataset alesis3630
+python train.py  --config_path ./configs/release/mamba2_mag_phase_mask_small.yaml --dataset alesis3630
 python train.py  --config_path ./configs/release/lstm_raw_32.yaml --dataset alesis3630
 python train.py  --config_path ./configs/release/tcn_100_config.yaml --dataset alesis3630
 python train.py  --config_path ./configs/release/tcn_300_config.yaml --dataset alesis3630

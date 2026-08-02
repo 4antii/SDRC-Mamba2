@@ -43,6 +43,7 @@ class MambaBlock(nn.Module):
         p_dim: int,
         film_hidden: int = 256,
         m2_ngroups=None,
+        m2_headdim=None,
         dropout: float = 0.0,
     ):
         super().__init__()
@@ -52,6 +53,8 @@ class MambaBlock(nn.Module):
         kwargs = {}
         if m2_ngroups is not None:
             kwargs["ngroups"] = m2_ngroups
+        if m2_headdim is not None:
+            kwargs["headdim"] = m2_headdim
         self.mamba = MambaLayer(d_model=d_model, **kwargs)
 
     def forward(self, x, p):
@@ -71,6 +74,7 @@ class Mamba2STFTCausalFilmPhaseMask(Base):
         d_model: int = 1024,
         depth: int = 2,
         m2_ngroups=None,
+        m2_headdim=None,
         dropout: float = 0.00,
         mlp_hidden: int = 512,
         out_scale_init: float = 2.0,
@@ -96,7 +100,7 @@ class Mamba2STFTCausalFilmPhaseMask(Base):
         # Magnitude branch
         self.blocks_mag = nn.ModuleList([
             MambaBlock(d_model=self.d_model, p_dim=self.P, film_hidden=film_hidden,
-                       m2_ngroups=m2_ngroups, dropout=dropout)
+                       m2_ngroups=m2_ngroups, m2_headdim=m2_headdim, dropout=dropout)
             for _ in range(depth)
         ])
         self.post_norm_mag = nn.LayerNorm(self.d_model)
@@ -112,7 +116,7 @@ class Mamba2STFTCausalFilmPhaseMask(Base):
         # Phase branch
         self.blocks_ph = nn.ModuleList([
             MambaBlock(d_model=self.d_model, p_dim=self.P, film_hidden=film_hidden,
-                       m2_ngroups=m2_ngroups, dropout=dropout)
+                       m2_ngroups=m2_ngroups, m2_headdim=m2_headdim, dropout=dropout)
             for _ in range(depth)
         ])
         self.post_norm_ph = nn.LayerNorm(self.d_model)
