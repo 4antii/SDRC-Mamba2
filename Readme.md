@@ -87,6 +87,15 @@ Measure GMACs, parameter count, and realtime factor:
 python profiling_gpu.py --config_path ./configs/release/mamba2_mag_phase_mask.yaml --dataset la2a
 ```
 
+## CPU and JUCE Benchmarks
+`benchmarks/benchmark_cpu_streaming_512.py` measures batch-size-one CPU inference with 512-sample streaming blocks. Pass the directory containing the downloaded checkpoints explicitly:
+
+```bash
+python benchmarks/benchmark_cpu_streaming_512.py --root <checkpoint-root> --output <results.csv>
+```
+
+`juce/CPUModelBenchmarks` contains raw C++ AU/VST3 implementations and validation executables for LSTM, uTCN, S4, S6, and SDRC-Mamba2 models. `juce/TorchTCNBenchmarks` contains TorchScript uTCN reference plugins.
+
 ## Acknowledgments
 This repository includes adapted/inspired components with citations embedded in source headers:
 

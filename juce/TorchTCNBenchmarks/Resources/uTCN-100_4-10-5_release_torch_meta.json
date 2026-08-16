@@ -1,0 +1,9 @@
+{
+  "stem": "uTCN-100_4-10-5_release",
+  "receptive_field": 4445,
+  "context_samples": 4444,
+  "nparams": 4,
+  "kernel_size": 5,
+  "nblocks": 4,
+  "dilation_growth": 10
+}
