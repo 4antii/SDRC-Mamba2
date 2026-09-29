@@ -89,6 +89,8 @@ models = [
     f"./experiments/{args.dataset}/s6_16d_release", 
     f"./experiments/{args.dataset}/mamba2_mag_mask_release",
     f"./experiments/{args.dataset}/mamba2_mag_phase_mask_release",
+    f"./experiments/{args.dataset}/gcntf_250_release",
+    f"./experiments/{args.dataset}/gcntf_2500_extended_release",
 ]
 
 def spectral_flux(y_true, y_pred, sr, w=48000):
@@ -137,10 +139,15 @@ for idx, model_dir in enumerate(models):
                 map_location="cuda:0"
             )
 
-    i = torch.rand(1,1,65536).to("cuda")
-    p = torch.rand(1,1,4).to("cuda")
+    # Use the input length stored with each checkpoint. Extended models keep
+    # their longer profiling/training window in hparams.yaml.
+    input_length = int(hparams.get("train_length", config.train_length))
+
+    i = torch.rand(1, 1, input_length).to("cuda")
+    p = torch.rand(1, 1, dataset_config['nparams']).to("cuda")
     model.to("cuda").eval()
-    macs, params = profile(model, inputs=(i, p))
+    with torch.no_grad():
+        macs, params = profile(model, inputs=(i, p))
 
     print(f" {idx+1}/{len(models)} : epoch: {epoch} {os.path.basename(model_dir)}")
     print(   f"MACs: {macs/10**9:0.2f} G     Params: {params/1e3:0.2f} k")
@@ -159,7 +166,7 @@ for idx, model_dir in enumerate(models):
         end = time.perf_counter()
 
     avg_time = (end - start) / iterations
-    audio_duration = 65536 / sr
+    audio_duration = input_length / sr
     rt_factor = avg_time / audio_duration
 
     print(f"Average inference time: {avg_time:.6f}s")

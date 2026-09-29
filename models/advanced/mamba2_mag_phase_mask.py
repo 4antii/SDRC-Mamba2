@@ -45,9 +45,10 @@ class MambaBlock(nn.Module):
         m2_ngroups=None,
         m2_headdim=None,
         dropout: float = 0.0,
+        use_layernorm: bool = True,
     ):
         super().__init__()
-        self.norm = nn.LayerNorm(d_model)
+        self.norm = nn.LayerNorm(d_model) if use_layernorm else nn.Identity()
         self.film = FiLM(p_dim=p_dim, D=d_model, hidden=film_hidden)
         self.dropout = nn.Dropout(dropout)
         kwargs = {}
@@ -80,10 +81,13 @@ class Mamba2STFTCausalFilmPhaseMask(Base):
         out_scale_init: float = 2.0,
         use_log_mag: bool = True,
         film_hidden: int = 256,
+        layernorm_mode: str = "all",
         **kwargs,
     ):
         super().__init__(**kwargs)
         self.save_hyperparameters()
+        if layernorm_mode not in {"all", "no_input", "none"}:
+            raise ValueError(f"Unsupported layernorm_mode: {layernorm_mode}")
         self.n_fft = int(n_fft)
         self.hop_length = int(hop_length)
         self.register_buffer("window", torch.hamming_window(n_fft, periodic=True), persistent=False)
@@ -100,10 +104,12 @@ class Mamba2STFTCausalFilmPhaseMask(Base):
         # Magnitude branch
         self.blocks_mag = nn.ModuleList([
             MambaBlock(d_model=self.d_model, p_dim=self.P, film_hidden=film_hidden,
-                       m2_ngroups=m2_ngroups, m2_headdim=m2_headdim, dropout=dropout)
-            for _ in range(depth)
+                       m2_ngroups=m2_ngroups, m2_headdim=m2_headdim, dropout=dropout,
+                       use_layernorm=layernorm_mode == "all" or
+                                     (layernorm_mode == "no_input" and block_idx > 0))
+            for block_idx in range(depth)
         ])
-        self.post_norm_mag = nn.LayerNorm(self.d_model)
+        self.post_norm_mag = nn.LayerNorm(self.d_model) if layernorm_mode != "none" else nn.Identity()
         self.stack_gate_mag = nn.Parameter(torch.tensor(1.0))
         self.film_before_head_mag = FiLM(p_dim=self.P, D=self.d_model, hidden=film_hidden)
         self.head_mag = nn.Sequential(
@@ -116,10 +122,12 @@ class Mamba2STFTCausalFilmPhaseMask(Base):
         # Phase branch
         self.blocks_ph = nn.ModuleList([
             MambaBlock(d_model=self.d_model, p_dim=self.P, film_hidden=film_hidden,
-                       m2_ngroups=m2_ngroups, m2_headdim=m2_headdim, dropout=dropout)
-            for _ in range(depth)
+                       m2_ngroups=m2_ngroups, m2_headdim=m2_headdim, dropout=dropout,
+                       use_layernorm=layernorm_mode == "all" or
+                                     (layernorm_mode == "no_input" and block_idx > 0))
+            for block_idx in range(depth)
         ])
-        self.post_norm_ph = nn.LayerNorm(self.d_model)
+        self.post_norm_ph = nn.LayerNorm(self.d_model) if layernorm_mode != "none" else nn.Identity()
         self.stack_gate_ph = nn.Parameter(torch.tensor(1.0))
         self.film_before_head_ph = FiLM(p_dim=self.P, D=self.d_model, hidden=film_hidden)
         self.head_ph = nn.Sequential(

@@ -4,6 +4,7 @@ from .raw.lstm import LSTMModel
 from .raw.gru import GRUModel
 from .raw.s4_raw import S4Model
 from .raw.mamba_raw import MambaRaw
+from .gcntfilm import GCNTFModel
 
 # Magnitude-only model
 from .mamba.mamba2_causal_film import Mamba2STFTCausalFilm
@@ -22,6 +23,7 @@ models_map = {
     'gru': GRUModel,
     's4_raw': S4Model, 
     'mamba_raw': MambaRaw,
+    'gcntf': GCNTFModel,
     'mamba2_base_causal_film': Mamba2STFTCausalFilm,
     'mamba2_phase_mask_film': Mamba2STFTCausalFilmPhaseMask,
     # Ablation models

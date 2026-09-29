@@ -1,0 +1,26 @@
+exp_name: "gcntf_250_release"
+model_type: "gcntf"
+nblocks: 1
+nlayers: 4
+nchannels: 16
+kernel_size: 41
+dilation_growth: 6
+tfilm_block_size: 128
+pad_input_to_receptive_field: false
+causal: false
+
+max_epochs: 150
+preload: true
+sample_rate: 44100
+shuffle: true
+train_subset: "train"
+val_subset: "val"
+eval_subset: "test"
+train_length: 65536
+train_fraction: 1.0
+eval_length: 131072
+batch_size: 32
+num_workers: 0
+precision: 16
+eval_precision: 32
+eval_audo_save_dir: "./audio"

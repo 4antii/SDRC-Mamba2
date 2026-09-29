@@ -87,6 +87,10 @@ models = [
     f"./experiments/{args.dataset}/s6_16d_release", 
     f"./experiments/{args.dataset}/mamba2_mag_mask_release",
     f"./experiments/{args.dataset}/mamba2_mag_phase_mask_release",
+    f"./experiments/{args.dataset}/mamba2_mag_phase_no_input_layernorm",
+    f"./experiments/{args.dataset}/mamba2_mag_phase_no_layernorm",
+    f"./experiments/{args.dataset}/gcntf_250_release",
+    f"./experiments/{args.dataset}/gcntf_2500_extended_release",
     
     # Ablation
     f"./experiments/{args.dataset}/mamba2_phase_mask_film_fix_no_add_losses",

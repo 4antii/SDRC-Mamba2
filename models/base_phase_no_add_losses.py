@@ -118,7 +118,7 @@ class Base(pl.LightningModule):
         stft_cons = self._stft_consistency_loss(Yhat_c)
         gain_db = self._gain_db_loss(input_crop.squeeze(1), pred.squeeze(1), target_crop.squeeze(1), win=1024, hop=256)
 
-        loss = 0.55 * l1_loss + 0.45
+        loss = 0.55 * l1_loss + 0.45 * stft_loss
 
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         self.log('train/L1', l1_loss, on_step=True, on_epoch=True, logger=True)
