@@ -96,6 +96,10 @@ python benchmarks/benchmark_cpu_streaming_512.py --root <checkpoint-root> --outp
 
 `juce/CPUModelBenchmarks` contains raw C++ AU/VST3 implementations and validation executables for LSTM, uTCN, S4, S6, and SDRC-Mamba2 models. `juce/TorchTCNBenchmarks` contains TorchScript uTCN reference plugins.
 
+`benchmarks/gcntf` and `juce/GCNTFBenchmarks` contain the streaming CPU,
+TorchScript, and VST3 benchmarks for GCNTF-250 and GCNTF-2500 Extended. See
+`benchmarks/gcntf/README.md` for export, build, parity-check, and benchmark commands.
+
 ## Acknowledgments
 This repository includes adapted/inspired components with citations embedded in source headers:
 
